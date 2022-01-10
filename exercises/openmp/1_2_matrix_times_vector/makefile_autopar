@@ -1,0 +1,91 @@
+#----------------------------------------------------------------------
+#  Makefile : heat_diffusion_2d     
+#  Version  : 0.5                                                         
+#  Author   : Kristian Ebstrup Jacobsen                                                         
+#  Created  : January 8, 2022
+#----------------------------------------------------------------------
+SHELL       = /bin/sh
+PROCESSORS	= 8
+TARGET		= matrix_times_vector_${PROCESSORS}.exe
+
+#----------------------------------------------------------------------
+#  Compiler settings (Linux)
+#----------------------------------------------------------------------
+F77         = gfortran
+CC          = cc
+DEBUG       = -C
+DEBUG       = 
+OPT         = -O3
+FFLAGS      = $(OPT) -free $(DEBUG) -J ./${MOD} -I ./${MOD} -ftree-parallelize-loops=${PROCESSORS} -ffast-math
+CFLAGS      = -O
+LD          = $(F77)
+LDFLAGS     = 
+CPP         = /lib/cpp
+DEFINE      = 
+LIBS        = 
+
+#----------------------------------------------------------------------
+#  Directories
+#----------------------------------------------------------------------
+RES			= res
+MOD			= .mod
+OBJ			= obj
+SRC			= src
+
+ifneq ($(RES),)
+  $(shell test -d $(RES) || mkdir -p $(RES))
+endif
+
+ifneq ($(MOD),)
+  $(shell test -d $(MOD) || mkdir -p $(MOD))
+endif
+
+ifneq ($(OBJ),)
+  $(shell test -d $(OBJ) || mkdir -p $(OBJ))
+endif
+
+#----------------------------------------------------------------------
+#  Default target
+#----------------------------------------------------------------------
+all: $(TARGET)
+
+#----------------------------------------------------------------------
+#  Object files:                                                       
+#  NOTE: you HAVE to sort the objects files such that no file will 
+#  depend on files below it ! 
+#----------------------------------------------------------------------
+OBJS =\
+	${OBJ}/m_timer.o\
+	${OBJ}/matrix_times_vector.o
+
+#----------------------------------------------------------------------
+#  Dependencies:                                                       
+#  NOTE: add the dependencies here explicitly ! 
+#----------------------------------------------------------------------
+${OBJ}/matrix_times_vector.o: ${SRC}/matrix_times_vector.f90 ${SRC}/m_timer.f90
+	${F77} ${FFLAGS} -c $< -o $@
+
+${OBJ}/m_timer.o: ${SRC}/m_timer.f90
+	${F77} ${FFLAGS} -c $< -o $@
+
+#----------------------------------------------------------------------
+#  Link                                                                
+#----------------------------------------------------------------------
+${TARGET}: ${OBJS}
+	${F77} ${FFLAGS} -o $@ $+
+
+#----------------------------------------------------------------------
+#  Clean                                                               
+#----------------------------------------------------------------------
+
+.PHONY: clean
+clean :
+	rm -f ${OBJ}/* ${MOD}/* ${SRC}/*.mod ${RES}/*
+
+.PHONY: clean_src
+clean_src :
+	rm -f ${SRC}/*.mod
+
+.PHONY: clean_res
+clean_res :
+	rm -f ${RES}/*

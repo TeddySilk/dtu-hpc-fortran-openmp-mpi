@@ -1,0 +1,1 @@
+hyperfine --warmup 10 matrix_times_vector_2.exe matrix_times_vector_4.exe matrix_times_vector_6.exe matrix_times_vector_8.exe matrix_times_vector_1.exe "OMP_NUM_THREADS=2 matrix_times_vector.exe" "OMP_NUM_THREADS=4 matrix_times_vector.exe" "OMP_NUM_THREADS=6 matrix_times_vector.exe" "OMP_NUM_THREADS=8 matrix_times_vector.exe" "OMP_NUM_THREADS=1 matrix_times_vector.exe"

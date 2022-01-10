@@ -1,0 +1,1 @@
+hyperfine --warmup 10 calc_pi_autopar_2.exe calc_pi_autopar_4.exe calc_pi_autopar_6.exe calc_pi_autopar_8.exe calc_pi_autopar_1.exe "OMP_NUM_THREADS=2 calc_pi_openmp.exe" "OMP_NUM_THREADS=4 calc_pi_openmp.exe" "OMP_NUM_THREADS=6 calc_pi_openmp.exe" "OMP_NUM_THREADS=8 calc_pi_openmp.exe" "OMP_NUM_THREADS=1 calc_pi_openmp.exe"
