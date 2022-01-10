@@ -1,0 +1,18 @@
+&GLOBAL
+ NX=21         ,
+ NY=21         ,
+ LX=1          ,
+ LY=1          ,
+ DIFF_CONST=1          ,
+ DT=  1.00000000    ,
+ NSTEPS=200        ,
+ DIAGFREQ=10         ,
+ BINFREQ=100        ,
+ TINIT=  0.00000000    ,
+ TBOUNDARY=  1.00000000    ,
+ SAVE_BIN=T,
+ OUTPUT_FILE="Tfield                  ",
+ BINARY_FILE="Tfield                  ",
+ DIAGNOSTIC_FILE="diag                    ",
+ DIAGNOSTIC_UNIT=20         ,
+ /
