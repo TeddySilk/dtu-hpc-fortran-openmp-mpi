@@ -14,19 +14,25 @@ PROGRAM matrix_times_vector
 
    CALL start_timer(cpu_t1, wall_t1)
 
-   ALLOCATE(mat(5000,5000))
-   ALLOCATE(vec(5000))
+   ALLOCATE(mat(10000,10000))
+   ALLOCATE(vec(10000))
    ALLOCATE(prod(SIZE(mat, 2)))
 
+   !$OMP PARALLEL
+   !$OMP DO COLLAPSE(1) PRIVATE(i, j)
    DO j = 1, SIZE(mat, 2)
       DO i = 1, SIZE(mat, 1)
          mat(i, j) = i + j
       ENDDO
    ENDDO
-
+   !$OMP END DO
+   
+   !$OMP DO PRIVATE(i)
    DO i = 1, SIZE(vec)
       vec(i) = i
    ENDDO
+   !$OMP END DO
+   !$OMP END PARALLEL
 
 
    CALL mtv(mat, vec, prod)
@@ -49,12 +55,11 @@ CONTAINS
       dim2 = SIZE(mat, 2)
 
       !$OMP PARALLEL
-      !$OMP DO
+      !$OMP DO COLLAPSE(1) PRIVATE(i, j, temp)
       DO j = 1, dim2
-         temp = 0
-
          DO i = 1, dim1
-            temp = temp + mat(i, j) * vec(i)
+            temp = mat(i, j) * vec(i)
+            prod(j) = prod(j) + temp
          ENDDO
          prod(j) = temp
       ENDDO

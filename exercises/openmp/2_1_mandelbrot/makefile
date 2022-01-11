@@ -5,8 +5,7 @@
 #  Created  : January 8, 2022
 #----------------------------------------------------------------------
 SHELL       = /bin/sh
-PROCESSORS	= 1
-TARGET		= matrix_times_vector_${PROCESSORS}.exe
+TARGET		= matrix_times_vector.exe
 
 #----------------------------------------------------------------------
 #  Compiler settings (Linux)
@@ -16,7 +15,7 @@ CC          = cc
 DEBUG       = -C
 DEBUG       = 
 OPT         = -O3
-FFLAGS      = $(OPT) -free $(DEBUG) -J ./${MOD} -I ./${MOD} -ftree-parallelize-loops=${PROCESSORS} -ffast-math
+FFLAGS      = $(OPT) -free $(DEBUG) -J ./${MOD} -I ./${MOD} -fopenmp -ffast-math
 CFLAGS      = -O
 LD          = $(F77)
 LDFLAGS     = 
