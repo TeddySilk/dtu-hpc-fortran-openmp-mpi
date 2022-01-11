@@ -5,7 +5,7 @@
 #  Created  : January 8, 2022
 #----------------------------------------------------------------------
 SHELL       = /bin/sh
-PROCESSORS	= 1
+PROCESSORS	= 8
 TARGET		= matrix_times_vector_${PROCESSORS}.exe
 
 #----------------------------------------------------------------------

@@ -1,1 +1,6 @@
-hyperfine --warmup 10 matrix_times_vector_2.exe matrix_times_vector_4.exe matrix_times_vector_6.exe matrix_times_vector_8.exe matrix_times_vector_1.exe "OMP_NUM_THREADS=2 matrix_times_vector.exe" "OMP_NUM_THREADS=4 matrix_times_vector.exe" "OMP_NUM_THREADS=6 matrix_times_vector.exe" "OMP_NUM_THREADS=8 matrix_times_vector.exe" "OMP_NUM_THREADS=1 matrix_times_vector.exe"
+s="static"
+for t in 1 2 4 8
+do
+hyperfine matrix_times_vector_$t.exe
+hyperfine "OMP_WAIT_POLICY=active OMP_NUM_THREADS=$t OMP_SCHEDULE=$s matrix_times_vector.exe"
+done

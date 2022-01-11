@@ -11,6 +11,8 @@
       real      ( kind = 8 ) :: y_max =   1.75D+00
       real      ( kind = 8 ) :: y_min = - 1.75D+00
 
+      !$OMP PARALLEL
+      !$OMP DO COLLAPSE(2) PRIVATE(i, j, k, x1, x2, y1, y2, x, y)
       do i = 1, n
         do j = 1, n
 
@@ -49,5 +51,7 @@
 
         end do
       end do
+      !$OMP END DO
+      !$OMP END PARALLEL
 
       end subroutine

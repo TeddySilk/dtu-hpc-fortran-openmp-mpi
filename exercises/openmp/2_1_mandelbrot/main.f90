@@ -81,12 +81,12 @@ program main
 ! call writepng to save a PNG image in filename
 
   filename = "mandelbrot.png"//CHAR(0)
-  call writepng(filename, image, n, n)
+  !call writepng(filename, image, n, n)
   deallocate(image)
 
   write ( *, '(a)' ) ' '
-  write ( *, '(a)' ) &
-    '  PNG image data stored in "' // trim ( filename ) // '".'
+  !write ( *, '(a)' ) &
+    !'  PNG image data stored in "' // trim ( filename ) // '".'
   write ( *, '(a)' ) ' '
   write ( *, '(a)' ) 'MANDELBROT'
   write ( *, '(a)' ) '  Normal end of execution.'
