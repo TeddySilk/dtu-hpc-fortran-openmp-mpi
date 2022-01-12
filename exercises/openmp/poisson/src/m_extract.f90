@@ -37,7 +37,10 @@ CONTAINS
          DO k = 1, nz
             DO j = 1, ny
                DO i = 1, nx
-                  WRITE(10, '(4E12.4)') REAL(i - 1) * dx, REAL(j - 1) * dy, REAL(k - 1) * dz, field(i, j, k)
+                  WRITE(10, '(4E12.4)') (-0.5*Lx) + REAL(i - 1) * dx, &
+                                        (-0.5*Ly) + REAL(j - 1) * dy, &
+                                        (-0.5*Lz) + REAL(k - 1) * dz, &
+                                        field(i, j, k)
                ENDDO
             ENDDO
             WRITE(10, '(A)')
@@ -50,7 +53,10 @@ CONTAINS
          DO k = 1, nz
             DO j = 1, ny
                DO i = 1, nx
-                  WRITE(10, '(4E12.4)') REAL(i - 1) * dx, REAL(j - 1) * dy, REAL(k - 1) * dz, field(i, j, k)
+                  WRITE(10, '(4E12.4)') (-0.5*Lx) + REAL(i - 1) * dx, &
+                                        (-0.5*Ly) + REAL(j - 1) * dy, &
+                                        (-0.5*Lz) + REAL(k - 1) * dz, &
+                                        field(i, j, k)
                ENDDO
             ENDDO
             WRITE(10, '(A)')

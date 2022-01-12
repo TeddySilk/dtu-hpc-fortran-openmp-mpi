@@ -13,11 +13,12 @@ MODULE m_global
    ! ------------------------------------------------- !
    ! INPUT PARAMETERS                                  !
    ! ------------------------------------------------- !
-   INTEGER   :: nx, ny, nz                      ! cells per direction
-   INTEGER   :: lx, ly, lz                      ! box dimensions
-   INTEGER   :: nsteps                          ! integration steps
-   REAL      :: Tinit                           ! Tinit: initial field temperature
-   REAL      :: Tboundary                       ! Tboundary: Dirilect-boundary field temperature
+   INTEGER              :: nx, ny, nz                ! cells per direction
+   INTEGER              :: lx, ly, lz                ! box dimensions
+   INTEGER              :: nsteps                    ! integration steps
+   !REAL                :: Tinit                     ! Tinit: initial field temperature
+   !REAL                :: Tboundary                 ! Tboundary: Dirilect-boundary field temperature
+   CHARACTER(LEN = 12)  :: source_type               ! source type, supports "radiator", "sinusoidal"
 
    ! ------------------------------------------------- !
    ! DATA EXTRACT PARAMETERS                           !

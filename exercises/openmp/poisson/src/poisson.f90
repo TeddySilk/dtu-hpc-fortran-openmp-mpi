@@ -23,7 +23,8 @@ PROGRAM poisson
    ! ------------------------------------------------- !
    ! INITIALIZATION                                    !
    ! ------------------------------------------------- !
-   
+   CALL start_timer(cpu_t1, wall_t1)
+
    ! read input file
    CALL read_input(input_file, info)
    IF (info.EQ.1) THEN
@@ -40,18 +41,17 @@ PROGRAM poisson
    CALL alloc(previous_field, nx, ny, nz, info)
 
    ! initialize the temperature field with Dirilect BCs
-   CALL init(previous_field, boundary_temperature=Tboundary, initial_temperature=Tinit)
+   CALL init(previous_field, type=source_type, source=.FALSE.)
+   CALL init(field, type=source_type, source=.FALSE.)
 
    ! allocate and initialize source field
    CALL alloc(source, nx, ny, nz, info)
-   CALL init(source, boundary_temperature=0.0)
+   CALL init(source, type=source_type, source=.TRUE.)
 
    ! ------------------------------------------------- !
    ! JACOBI ITERATION                                  !
-   ! ------------------------------------------------- !
-   CALL start_timer(cpu_t1, wall_t1)
+   ! ------------------------------------------------- !   
    DO step = 1, nsteps
-
       DO k = 2, nz - 1
          DO j = 2, ny - 1
             DO i = 2, nx - 1

@@ -21,7 +21,7 @@ CONTAINS
       LOGICAL            :: input_exists
 
       ! list of inputs
-      NAMELIST /GLOBAL/ nx, ny, nz, lx, ly, lz, nsteps, Tinit, Tboundary, output_file
+      NAMELIST /GLOBAL/ nx, ny, nz, lx, ly, lz, nsteps, source_type, output_file
 
       INQUIRE(FILE=input_file, EXIST=input_exists)
       IF (input_exists) THEN
@@ -29,16 +29,17 @@ CONTAINS
          nx = 21
          ny = 21
          nz = 21
-         lx = 1
-         ly = 1
-         lz = 1
+         lx = 2
+         ly = 2
+         lz = 2
          !dt = 1.0
          !diff_const = 1
          nsteps = 200
          !diagfreq = 10
          !binfreq = 100
-         Tinit = 0.0
-         Tboundary = 1.0
+         !Tinit = 0.0
+         !Tboundary = 1.0
+         source_type = "radiator"
 
          !save_bin = .TRUE.
 
@@ -58,16 +59,17 @@ CONTAINS
          nx = 21
          ny = 21
          nz = 21
-         lx = 1
-         ly = 1
-         lz = 1
+         lx = 2
+         ly = 2
+         lz = 2
          !dt = 1.0
          !diff_const = 1
          nsteps = 200
          !diagfreq = 10
          !binfreq = 100
-         Tinit = 0.0
-         Tboundary = 1.0
+         !Tinit = 0.0
+         !Tboundary = 1.0
+         source_type = "radiator"
 
          !save_bin = .TRUE.
 
