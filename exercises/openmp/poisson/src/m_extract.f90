@@ -22,9 +22,9 @@ CONTAINS
    SUBROUTINE extract_field3(field, output_name, step)
 
       ! input variables
-      CHARACTER(LEN = *), INTENT(IN)         :: output_name
+      CHARACTER(LEN = *), INTENT(IN)                     :: output_name
       DOUBLE PRECISION, DIMENSION(:, :, :), INTENT(IN)   :: field
-      INTEGER, OPTIONAL                      :: step
+      INTEGER, OPTIONAL                                  :: step
 
       ! local variables
       CHARACTER(LEN = 48)  :: string

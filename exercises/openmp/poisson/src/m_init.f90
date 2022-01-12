@@ -4,6 +4,7 @@ MODULE m_init
    ! MODULES                                           !
    ! ------------------------------------------------- !
    USE m_global
+   USE OMP_LIB
 
    IMPLICIT NONE
 
@@ -25,7 +26,7 @@ MODULE m_init
    ! ------------------------------------------------- !
    ! LOCAL HEAP VARIABLES                              !
    ! ------------------------------------------------- !
-   REAL, DIMENSION(:, :, :), ALLOCATABLE     :: work3
+   DOUBLE PRECISION, DIMENSION(:, :, :), ALLOCATABLE     :: work3
 
 CONTAINS
 
@@ -35,7 +36,7 @@ CONTAINS
    SUBROUTINE alloc3(array, nx, ny, nz, info)
 
       ! input variables
-      REAL, DIMENSION(:, :, :), ALLOCATABLE     :: array
+      DOUBLE PRECISION, DIMENSION(:, :, :), ALLOCATABLE     :: array
       INTEGER, INTENT(IN)                    :: nx, ny, nz
       INTEGER, INTENT(INOUT)                 :: info
 
@@ -74,8 +75,8 @@ CONTAINS
       ! effectively a is superimposed onto b
 
       ! input variables
-      REAL, DIMENSION(:,:,:), INTENT(IN)    :: a
-      REAL, DIMENSION(:,:,:), INTENT(INOUT) :: b
+      DOUBLE PRECISION, DIMENSION(:,:,:), INTENT(IN)    :: a
+      DOUBLE PRECISION, DIMENSION(:,:,:), INTENT(INOUT) :: b
 
       ! local variables
       INTEGER                 :: i, j, k
@@ -178,12 +179,12 @@ CONTAINS
       ! ------------------------------------------------ !
 
       ! input variables
-      REAL, DIMENSION(:,:,:), INTENT(INOUT) :: field
+      DOUBLE PRECISION, DIMENSION(:,:,:), INTENT(INOUT) :: field
 
       ! local variables
       INTEGER                 :: nx, ny, nz
       INTEGER                 :: i, j, k
-      REAL                    :: pi
+      DOUBLE PRECISION                    :: pi
 
       ! optional variables
       CHARACTER(LEN = *), OPTIONAL  :: type
@@ -202,7 +203,6 @@ CONTAINS
       IF (.NOT.PRESENT(source).OR..NOT.source) THEN
          ! apply Dirilect boundary condition based on type
          ! sinusoidal boundary conditions
-         !$OMP PARALLEL
          IF (type.EQ."sinusoidal") THEN
             DO i = 1, nx
                field( i,  1,  1)   = 0.0
@@ -226,6 +226,7 @@ CONTAINS
             ENDDO
          ! radiator boundary conditions
          ELSEIF (type.EQ."radiator") THEN
+            !$OMP PARALLEL
             !$OMP DO COLLAPSE(1) PRIVATE(j, i)
             DO j = 1, ny
                DO i = 1, nx
@@ -241,7 +242,7 @@ CONTAINS
                   field(nx,  j,  k) = 20.0
                ENDDO
             ENDDO
-            !$OMP END Do
+            !$OMP END DO
             !$OMP DO COLLAPSE(1) PRIVATE(j, i)
             DO k = 1, nz
                DO i = 1, nx
@@ -250,9 +251,11 @@ CONTAINS
                ENDDO
             ENDDO
             !$OMP END DO
+            !$OMP END PARALLEL
          ENDIF
 
          ! initialize field to T = 0, unless other value given
+         !$OMP PARALLEL
          !$OMP DO COLLAPSE(2) PRIVATE(k, j, i)
          DO k = 2, nz - 1
             DO j = 2, ny - 1

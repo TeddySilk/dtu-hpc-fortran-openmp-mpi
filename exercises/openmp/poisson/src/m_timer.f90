@@ -7,7 +7,7 @@ CONTAINS
    SUBROUTINE start_timer(cpu_t1, wall_t1)
 
       ! input cpu and wall times
-      REAL, INTENT(INOUT)  :: cpu_t1, wall_t1
+      DOUBLE PRECISION, INTENT(INOUT)  :: cpu_t1, wall_t1
 
       ! local count, count rate
       INTEGER  :: sys_count, sys_count_rate
@@ -35,7 +35,7 @@ CONTAINS
    SUBROUTINE stop_timer(cpu_t1, cpu_t2, wall_t1, wall_t2)
 
       ! input cpu and wall times
-      REAL, INTENT(INOUT)  :: cpu_t1, cpu_t2, wall_t1, wall_t2
+      DOUBLE PRECISION, INTENT(INOUT)  :: cpu_t1, cpu_t2, wall_t1, wall_t2
 
       ! local count, count rate
       INTEGER  :: sys_count, sys_count_rate

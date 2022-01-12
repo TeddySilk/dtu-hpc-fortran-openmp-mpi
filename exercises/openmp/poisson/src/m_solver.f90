@@ -5,6 +5,7 @@ MODULE m_solver
    ! ------------------------------------------------- !
    USE m_global
    USE m_init
+   USE OMP_LIB
 
    IMPLICIT NONE
 
@@ -22,11 +23,11 @@ CONTAINS
    ! ------------------------------------------------- !
    SUBROUTINE solver3(field, previous_field, source)
 
-      REAL, DIMENSION(:, :, :), INTENT(INOUT) :: field, previous_field
-      REAL, DIMENSION(:, :, :), INTENT(IN)    :: source
+      DOUBLE PRECISION, DIMENSION(:, :, :), INTENT(INOUT) :: field, previous_field
+      DOUBLE PRECISION, DIMENSION(:, :, :), INTENT(IN)    :: source
 
       INTEGER  :: i, j, k, step
-      REAL     :: eps
+      DOUBLE PRECISION     :: eps
 
       ! ------------------------------------------------- !
       ! JACOBI METHOD                                     !
