@@ -1,0 +1,12 @@
+&GLOBAL
+ NX=21         ,
+ NY=21         ,
+ NZ=21         ,
+ LX=1          ,
+ LY=1          ,
+ LZ=1          ,
+ NSTEPS=200        ,
+ TINIT=  2.00000000    ,
+ TBOUNDARY=  1.00000000    ,
+ OUTPUT_FILE="Tfield                  ",
+ /
