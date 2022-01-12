@@ -15,13 +15,14 @@ CONTAINS
    SUBROUTINE read_input(input_file, iostate)
       ! input variables
       CHARACTER(LEN = *), INTENT(IN) :: input_file
-      INTEGER, INTENT(INOUT) :: iostate
+      INTEGER, INTENT(INOUT)         :: iostate
 
       ! local variables
       LOGICAL            :: input_exists
 
       ! list of inputs
-      NAMELIST /GLOBAL/ nx, ny, nz, lx, ly, lz, nsteps, source_type, output_file
+      NAMELIST /GLOBAL/ nx, ny, nz, lx, ly, lz, nsteps, eps_min, &
+                        source_type, output_file
 
       INQUIRE(FILE=input_file, EXIST=input_exists)
       IF (input_exists) THEN
@@ -34,7 +35,8 @@ CONTAINS
          lz = 2
          !dt = 1.0
          !diff_const = 1
-         nsteps = 200
+         eps_min = 1.0E-4
+         nsteps = 1000
          !diagfreq = 10
          !binfreq = 100
          !Tinit = 0.0
@@ -64,7 +66,8 @@ CONTAINS
          lz = 2
          !dt = 1.0
          !diff_const = 1
-         nsteps = 200
+         eps_min = 1.0E-4
+         nsteps = 1000
          !diagfreq = 10
          !binfreq = 100
          !Tinit = 0.0

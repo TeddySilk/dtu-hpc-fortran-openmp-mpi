@@ -32,7 +32,7 @@ CONTAINS
 
       IF (PRESENT(step)) THEN
          WRITE(string, '(A,A,A,(I6.6),A)') './res/', trim(output_name), '@', step, '.dat'
-         print *, "Saving temperature field data to file: ", string
+         PRINT *, "Saving temperature field data to file: ", string
          OPEN(10, FILE = trim(string))
          DO k = 1, nz
             DO j = 1, ny
@@ -48,7 +48,7 @@ CONTAINS
          CLOSE(10)
       ELSE
          WRITE(string, '(A,A,A)') './res/', trim(output_name), '.dat'
-         print *, "Saving temperature field data to file: ", string
+         PRINT *, "Saving temperature field data to file: ", string
          OPEN(10, FILE = trim(string))
          DO k = 1, nz
             DO j = 1, ny

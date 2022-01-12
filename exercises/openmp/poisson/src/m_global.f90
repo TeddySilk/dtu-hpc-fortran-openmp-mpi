@@ -16,6 +16,7 @@ MODULE m_global
    INTEGER              :: nx, ny, nz                ! cells per direction
    INTEGER              :: lx, ly, lz                ! box dimensions
    INTEGER              :: nsteps                    ! integration steps
+   REAL                 :: eps_min                   ! threshold on error value
    !REAL                :: Tinit                     ! Tinit: initial field temperature
    !REAL                :: Tboundary                 ! Tboundary: Dirilect-boundary field temperature
    CHARACTER(LEN = 12)  :: source_type               ! source type, supports "radiator", "sinusoidal"

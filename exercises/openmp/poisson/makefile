@@ -59,6 +59,7 @@ OBJS =\
 	${OBJ}/m_init.o\
 	${OBJ}/m_input.o\
 	${OBJ}/m_extract.o\
+	${OBJ}/m_solver.o\
 	${OBJ}/poisson.o
 
 #----------------------------------------------------------------------
@@ -81,6 +82,9 @@ ${OBJ}/m_input.o: ${SRC}/m_input.f90 ${SRC}/m_global.f90
 	${F77} ${FFLAGS} -c $< -o $@
 
 ${OBJ}/m_global.o: ${SRC}/m_global.f90
+	${F77} ${FFLAGS} -c $< -o $@
+
+${OBJ}/m_solver.o: ${SRC}/m_solver.f90 ${SRC}/m_global.f90 ${SRC}/m_init.f90
 	${F77} ${FFLAGS} -c $< -o $@
 
 #----------------------------------------------------------------------
