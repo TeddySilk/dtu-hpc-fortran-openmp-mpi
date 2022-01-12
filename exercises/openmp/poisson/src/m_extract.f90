@@ -23,7 +23,7 @@ CONTAINS
 
       ! input variables
       CHARACTER(LEN = *), INTENT(IN)         :: output_name
-      REAL, DIMENSION(:, :, :), INTENT(IN)   :: field
+      DOUBLE PRECISION, DIMENSION(:, :, :), INTENT(IN)   :: field
       INTEGER, OPTIONAL                      :: step
 
       ! local variables

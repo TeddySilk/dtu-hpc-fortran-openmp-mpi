@@ -36,6 +36,8 @@ CONTAINS
       DO WHILE (eps.GT.eps_min.AND.&
          step.LE.nsteps)
          eps = 0
+         !$OMP PARALLEL
+         !$OMP DO COLLAPSE(2) PRIVATE(k, j, i)
          DO k = 2, nz - 1
             DO j = 2, ny - 1
                DO i = 2, nx - 1
@@ -50,6 +52,8 @@ CONTAINS
                ENDDO
             ENDDO
          ENDDO
+         !$OMP END DO
+         !$OMP END PARALLEL
          step = step + 1
          eps = NORM2(field - previous_field)
          IF (MOD(step, 100).EQ.0) THEN

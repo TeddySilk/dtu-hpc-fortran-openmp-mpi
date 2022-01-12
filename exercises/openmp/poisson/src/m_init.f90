@@ -202,6 +202,7 @@ CONTAINS
       IF (.NOT.PRESENT(source).OR..NOT.source) THEN
          ! apply Dirilect boundary condition based on type
          ! sinusoidal boundary conditions
+         !$OMP PARALLEL
          IF (type.EQ."sinusoidal") THEN
             DO i = 1, nx
                field( i,  1,  1)   = 0.0
@@ -225,27 +226,34 @@ CONTAINS
             ENDDO
          ! radiator boundary conditions
          ELSEIF (type.EQ."radiator") THEN
+            !$OMP DO COLLAPSE(1) PRIVATE(j, i)
             DO j = 1, ny
                DO i = 1, nx
                   field( i,  j,  1) = 20.0
                   field( i,  j, nz) = 20.0
                ENDDO
             ENDDO
+            !$OMP END DO
+            !$OMP DO COLLAPSE(1) PRIVATE(j, i)
             DO k = 1, nz
                DO j = 1, ny
                   field( 1,  j,  k) = 20.0
                   field(nx,  j,  k) = 20.0
                ENDDO
             ENDDO
+            !$OMP END Do
+            !$OMP DO COLLAPSE(1) PRIVATE(j, i)
             DO k = 1, nz
                DO i = 1, nx
                   field( i,  1,  k) =  0.0
                   field( i, ny,  k) = 20.0
                ENDDO
             ENDDO
+            !$OMP END DO
          ENDIF
 
          ! initialize field to T = 0, unless other value given
+         !$OMP DO COLLAPSE(2) PRIVATE(k, j, i)
          DO k = 2, nz - 1
             DO j = 2, ny - 1
                DO i = 2, nx - 1
@@ -253,6 +261,8 @@ CONTAINS
                ENDDO
             ENDDO
          ENDDO
+         !$OMP END DO
+         !$OMP END PARALLEL
 
       ! SOURCE INPUT
       ! ------------------------------------------------ !
@@ -276,6 +286,8 @@ CONTAINS
             ! source term:
             ! f(x,y,z) = 200 for x = [-1; -3/8], y = [-1; -1/2], z = [-2/3; 0]
             !          = 0 elsewhere
+            !$OMP PARALLEL
+            !$OMP DO COLLAPSE(2) PRIVATE(k, j, i)
             DO k = 1, nz
                DO j = 1, ny
                   DO i = 1, nx
@@ -292,6 +304,8 @@ CONTAINS
                   ENDDO
                ENDDO
             ENDDO
+            !$OMP END DO
+            !$OMP END PARALLEL
          ENDIF
       ENDIF
 

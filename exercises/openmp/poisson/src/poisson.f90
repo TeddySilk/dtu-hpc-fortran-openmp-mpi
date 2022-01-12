@@ -55,6 +55,6 @@ PROGRAM poisson
    CALL solver(field, previous_field, source)
 
    CALL stop_timer(cpu_t1, cpu_t2, wall_t1, wall_t2)
-   CALL extract_field(field, output_file)
+   !CALL extract_field(field, output_file)
 
 END PROGRAM poisson
