@@ -4,12 +4,11 @@ MODULE m_arrays
    !  - alloc(array, dim1, dim2)
    !  - copy(array1, array2)
    !  - swap(array1. array2)
-   
    USE m_precision
    IMPLICIT NONE
 
    ! internal work array
-   REAL(wp), DIMENSION(:, :), allocatable :: work
+   REAL(wp), DIMENSION(:, :), ALLOCATABLE :: work
 
 CONTAINS
 

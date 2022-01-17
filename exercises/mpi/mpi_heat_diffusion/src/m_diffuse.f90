@@ -45,14 +45,14 @@ CONTAINS
             DO i = 2, nx - 1
                temp_field(i, j) = field(i, j) + dt * diff *&
                   (&
-                  (field(i + 1, j) - 2 * field(i, j) + field(i - 1, j)) * rdx2 &
-                  + (field(i, j + 1) - 2 * field(i, j) + field(i, j - 1)) * rdy2 &
+                  (field(i + 1, j) - 2.0_wp * field(i, j) + field(i - 1, j)) * rdx2 &
+                  + (field(i, j + 1) - 2.0_wp * field(i, j) + field(i, j - 1)) * rdy2 &
                   )
             ENDDO
          ENDDO
 
          ! swap temp_field array (time-advanced) and field (old)
-         CALL swap(temp_field, field)
+         CALL copy(temp_field, field)
 
          ! check if diagnostics should be output
          IF (MOD(istep, diag_freq).EQ.0.AND.save_diag) THEN

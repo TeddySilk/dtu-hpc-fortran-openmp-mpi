@@ -95,6 +95,7 @@ CONTAINS
             CLOSE(99)
          ENDIF
 
+         CLOSE(99)
          ! if not, generate "input.txt" with default values
       ELSE
 
@@ -108,14 +109,13 @@ CONTAINS
             WRITE(UNIT=99, NML=DATA_EXTRACTION)
             WRITE(UNIT=99, NML=LOGICALS)
             WRITE(UNIT=99, NML=FILENAMES)
-         ELSE
-            PRINT*, TRIM("ERROR OPENING INPUT FILE | CODE: "), iostat
-            CLOSE(99)
-
             PRINT "(A)", TRIM("Check input file, and re-run the executable.")
             PRINT*, "# ___________ PROGRAM EXITED ___________ #"
             STOP
+         ELSE
+            PRINT*, TRIM("ERROR OPENING INPUT FILE | CODE: "), iostat
          ENDIF
+         CLOSE(99)
 
       ENDIF
 
@@ -126,10 +126,10 @@ CONTAINS
       rdy2 = 1/(dy ** 2)
 
       ! check if dt is lower than the Fourier limit
-      IF (dt.GT.MIN(dx, dy) ** 2 / (4*diff)) THEN
-         dt = MIN(dx, dy) ** 2 / (4*diff)
+      IF (dt.GT.MIN(dx, dy) ** 2.0_wp / (4.0_wp*diff).OR.dt.EQ.0.0_wp) THEN
+         dt = MIN(dx, dy) ** 2.0_wp / (4.0_wp*diff)
          PRINT "(A, F10.8)", &
-            TRIM("WARNING! Input time-step size (dt) is lower than Fourier limit!&
+            TRIM("WARNING! Input time-step size (dt) is lower than Fourier limit or equal zero!&
          &Time-step size forced to the Fourier limit: dt = "), dt
       ENDIF
 
