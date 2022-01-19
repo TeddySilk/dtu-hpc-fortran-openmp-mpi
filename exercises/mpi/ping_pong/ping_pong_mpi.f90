@@ -17,7 +17,10 @@ PROGRAM ping_pong_mpi
     n = 10
     ALLOCATE(times(n))
     ALLOCATE(bandwidth(n))
-    
+
+    OPEN(10, FILE=TRIM("timings.dat"))
+    WRITE(10, '(1x, A, 7(",", A))') "m", "mean(t)", "max(t)", "min(t)", &
+                      "mean(bandwidth)", "max(bandwidth)", "min(bandwidth)"
     DO m = 1, 2**18, 50
         PRINT*, "m = ", m, "out of ", 2**18
         
@@ -26,10 +29,10 @@ PROGRAM ping_pong_mpi
             imsg(i) = 1.798391290239
         ENDDO
 
-        OPEN(10, FILE=TRIM("timings.dat"))
+
         DO i = 1, n
+            t1 = MPI_Wtime()
             IF (rank.EQ.0) THEN
-                t1 = MPI_Wtime()
                 ! (1) PING
                 CALL MPI_SSend(imsg, m, MPI_DOUBLE_PRECISION, 1, 0, MPI_COMM_WORLD, ierror)
                 !IF (ierror.EQ.0) THEN 
@@ -40,9 +43,9 @@ PROGRAM ping_pong_mpi
                 CALL MPI_Recv(imsg, m, MPI_DOUBLE_PRECISION, 1, MPI_ANY_TAG, MPI_COMM_WORLD, status, ierror)
                 IF (status(MPI_SOURCE).EQ.1) THEN
                     !PRINT *, TRIM("PONG!")
-                    t2 = MPI_Wtime()
-                    times(i) = t2 - t1
-                    bandwidth(i) = (8.0_wp*m)/times(i)
+                    !t2 = MPI_Wtime()
+                    !times(i) = t2 - t1
+                    !bandwidth(i) = (8.0_wp*m)/times(i)
                 ENDIF
 
             ELSEIF (rank.EQ.1) THEN
@@ -57,11 +60,14 @@ PROGRAM ping_pong_mpi
                 !    PRINT *, "PONGED!"
                 !ENDIF
             ENDIF
+            t2 = MPI_Wtime()
+            times(i) = t2 - t1
+            bandwidth(i) = (8.0_wp*m)/times(i)
         ENDDO
         
         IF (rank.EQ.0) THEN        
             ! Prepare data saving
-            WRITE(10, '(I6, 6E12.4)') m, SUM(times)/SIZE(times), MAXVAL(times), MINVAL(times), &
+            WRITE(10, '(1x, E12.4, 7(",", E12.4))') 1.0_wp*m, SUM(times)/SIZE(times), MAXVAL(times), MINVAL(times), &
                 SUM(bandwidth)/SIZE(bandwidth), MAXVAL(bandwidth), MINVAL(bandwidth)
         ENDIF
 
@@ -70,7 +76,6 @@ PROGRAM ping_pong_mpi
         
     ENDDO
 
-    WRITE(10, '(A)')
     CLOSE(10)
 
     CALL MPI_Finalize(ierror)
