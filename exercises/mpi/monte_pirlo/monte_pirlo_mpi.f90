@@ -5,7 +5,7 @@ PROGRAM monte_pirlo
 
    INTEGER, PARAMETER :: wp = KIND(1.0D0) ! double working precision
 
-   INTEGER :: n, istat, rank, i, counter, ierror
+   INTEGER :: n, ntotal, ncheck, istat, np, rank, i, counter, ierror, ccount
    INTEGER :: status(MPI_STATUS_SIZE)
    INTEGER, DIMENSION(:), ALLOCATABLE :: seed
    REAL(wp), DIMENSION(:), ALLOCATABLE :: posx, posy, times
@@ -13,8 +13,16 @@ PROGRAM monte_pirlo
 
    CALL MPI_Init(ierror)
    CALL MPI_Comm_Rank(MPI_COMM_WORLD, rank, ierror)
+   CALL MPI_Comm_Size(MPI_COMM_WORLD, np, ierror)
 
-   n = 1000000
+   ntotal = 40000000   ! total points
+
+   ! ntotal divided onto processors
+   n = ntotal / np
+
+   IF (rank.EQ.0) THEN
+      t1 = MPI_WTime()
+   ENDIF
 
    ! allocate arrays
    ALLOCATE(seed(n * 2), STAT=istat)
@@ -53,7 +61,15 @@ PROGRAM monte_pirlo
       ENDIF
    ENDDO
 
-   PRINT *, counter / REAL(n, wp) * 4.0_wp
+   CALL MPI_Reduce(counter, ccount, 1, MPI_INTEGER,&
+        MPI_Sum, 0, MPI_COMM_WORLD, ierror)
+
+   IF (rank.EQ.0) THEN
+      t2 = MPI_Wtime()
+      PRINT *, "n  = ", ntotal
+      PRINT *, "pi = ", ccount / REAL(ntotal, wp) * 4.0_wp
+      PRINT *, "t  = ", t2 - t1
+   ENDIF
 
    DEALLOCATE(seed)
    DEALLOCATE(posx)

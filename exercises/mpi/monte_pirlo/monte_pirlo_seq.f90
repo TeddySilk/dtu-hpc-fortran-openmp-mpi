@@ -1,16 +1,17 @@
 PROGRAM monte_pirlo
-
-   USE mpi
    IMPLICIT NONE
 
    INTEGER, PARAMETER :: wp = KIND(1.0D0) ! double working precision
 
-   INTEGER :: n, istat, rank, i, counter
+   INTEGER :: n, istat, rank, i, counter, sys_count, sys_count_rate
    INTEGER, DIMENSION(:), ALLOCATABLE :: seed
    REAL(wp), DIMENSION(:), ALLOCATABLE :: posx, posy
-   REAL(wp) :: rand, dist
+   REAL(wp) :: rand, dist, t1, t2
 
-   n = 1000000
+   CALL SYSTEM_CLOCK(sys_count, sys_count_rate)
+   t1 = sys_count * 1.0 / sys_count_rate
+
+   n = 40000000
 
    ! allocate arrays
    ALLOCATE(seed(n * 2), STAT=istat)
@@ -50,7 +51,12 @@ PROGRAM monte_pirlo
       ENDIF
    ENDDO
 
-   PRINT *, counter / REAL(n, wp) * 4.0_wp
+   CALL SYSTEM_CLOCK(sys_count, sys_count_rate)
+   t2 = sys_count * 1.0 / sys_count_rate
+
+   PRINT *, "n  = ", n
+   PRINT *, "pi = ", counter / REAL(n, wp) * 4.0_wp
+   PRINT *, "t  = ", t2 - t1
 
    DEALLOCATE(seed)
    DEALLOCATE(posx)

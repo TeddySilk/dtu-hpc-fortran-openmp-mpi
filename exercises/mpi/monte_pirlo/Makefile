@@ -12,4 +12,4 @@ rseq:
 rmpi:
 	rm -f monte_pirlo_mpi.out
 	rm -f timings_mpi.dat
-	mpirun -np 8 monte_pirlo-mpi.e
+	mpirun -np 8 monte_pirlo_mpi.e
