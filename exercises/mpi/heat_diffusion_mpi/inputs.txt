@@ -1,0 +1,28 @@
+&SIMULATION
+ NX=41         ,
+ NY=41         ,
+ LX=1          ,
+ LY=1          ,
+ DT=  0.0000000000000000     ,
+ DIFF=1          ,
+ FSTEP=0          ,
+ NSTEPS=200        ,
+ TEMP_INIT=  0.0000000000000000     ,
+ TEMP_BOUNDARY=  1.0000000000000000     ,
+ /
+&DATA_EXTRACTION
+ DIAG_FREQ=10         ,
+ BIN_FREQ=100        ,
+ /
+&LOGICALS
+ SAVE_FIELD=T,
+ SAVE_BIN=F,
+ SAVE_DIAG=F,
+ BENCHMARK=F,
+ /
+&FILENAMES
+ FIELD_OUT="field                                           ",
+ BIN_OUT="field                                           ",
+ DIAG_OUT="diag                                            ",
+ BENCH_OUT="runtimes                                        ",
+ /
